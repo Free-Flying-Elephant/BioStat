@@ -116,8 +116,8 @@ def check_inp_valid(name_sets: list[list[str]], graph_labels: list[list[str]]) -
     return True if [len(x) for x in name_sets] == [len(x) for x in graph_labels] else False
 
 
-def get_data_per_category(data_per_category: dict[str, list[float]], name_sets: list[list[str]], data_dct: dict[str, list[list[float]]]) -> Generator[dict[str, list[float]], Any, None]:
-    val_sets: list[list[list[list[float]]]] = [[] for _ in name_sets]
+def get_data_per_category(data_per_category: dict[str, list[float]], name_sets: list[list[str]], data_dct: dict[str, list[float]]) -> Generator[dict[str, list[float]], Any, None]:
+    val_sets: list[list[list[float]]] = [[] for _ in name_sets]
     lbl_sets: list[list[str]] = [[] for _ in name_sets]
     for i, name_set in enumerate(name_sets):
         for key in data_per_category.keys():
@@ -164,7 +164,7 @@ def custom_plot(data_per_category, graph_num, legend_lst) -> None:
 
     fig.subplots_adjust(wspace=0.25)
 
-    xlims: tuple[tuple[int, int], ...] = ((1, 100), (34, 44), (1, 100), (0, 500), (0.1, 100), (0, 18))
+    xlims: tuple[tuple[int | float, int | float], ...] = ((1, 100), (34, 44), (1, 100), (0, 500), (0.1, 100), (0, 18))
     ticknum: tuple[int, ...] = (2, 11, 2, 11, 3, 10)
     heights: list[float] = [0.5, 0.46, 0.5]
 
@@ -176,7 +176,7 @@ def custom_plot(data_per_category, graph_num, legend_lst) -> None:
     color_palette: list[str] = ["lightcoral", "skyblue", "wheat", "mediumspringgreen", "plum", "sandybrown"]
     color_palette_edge: list[str] = ["indianred", "steelblue", "tan", "mediumseagreen", "mediumorchid", "peru"]
 
-    font_path = "cambria/cambriab.ttf"
+    font_path = ".\\resources\\Cambria.ttf"
     font_manager.fontManager.addfont(font_path)
     prop = font_manager.FontProperties(fname=font_path)
 
@@ -198,9 +198,9 @@ def custom_plot(data_per_category, graph_num, legend_lst) -> None:
         ax[i].boxplot(data_per_category[kw], positions=pos, vert=False, flierprops=flierprops, boxprops=boxprops, capprops=capprops, whiskerprops=whiskerprops, medianprops=medianprops, tick_labels=graph_ylabels[i], capwidths=0.1)
         if i in (0, 2, 4):
             if i == 4: 
-                ticklst: list[int] = [0.1]
+                ticklst: list[int | float] = [0.1]
             else:
-                ticklst: list[int] = [1]
+                ticklst: list[int | float] = [1]
             for ii in range(ticknum[i]):
                 if i == 4:
                     y: list[int] = [(x) for x in np.linspace(10 ** (ii - 1), 10 ** (ii), 10)]
@@ -211,7 +211,7 @@ def custom_plot(data_per_category, graph_num, legend_lst) -> None:
             ax[i].set_xticks(ticklst)
         else:
             ax[i].set_xticks(np.linspace(xlims[i][0], xlims[i][1], ticknum[i]))
-        ax[i].tick_params(axis='x', color="grey", pad=1.5, length=0.5, width=0.1, labelsize=5, grid_color="grey", grid_linewidth=0.1, labelcolor="grey", labelrotation=90)
+        ax[i].tick_params(axis='x', color="grey", pad=1.5, length=0.5, width=0.1, labelsize=9, grid_color="grey", grid_linewidth=0.1, labelcolor="grey", labelrotation=90)
         ax[i].tick_params(axis='y', length=0, pad=1.5, labelsize=12, grid_color="grey", grid_linewidth=0.1, labelcolor=color_palette_edge[i], labelrotation=0, labelfontfamily="sans-serif")
         ax[i].set_title(legend_lst[i], fontsize=12, color=color_palette_edge[i])
         ax[i].grid(axis="x")
